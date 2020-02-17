@@ -40,4 +40,9 @@ dependencies {
     // card view
     def cardview_version = "1.0.0"
     implementation "androidx.cardview:cardview:$cardview_version"
+
+    // room database
+    def room_version = "2.2.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 }
