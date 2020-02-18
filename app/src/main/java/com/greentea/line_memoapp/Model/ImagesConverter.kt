@@ -9,13 +9,13 @@ import com.google.gson.reflect.TypeToken
 class ImagesConverter {
 
     @TypeConverter
-    fun fromImgsJson(list: List<Image>): String{
+    fun fromImgsJson(list: List<MediaStore.Images>): String{
         return Gson().toJson(list)
     }
 
     @TypeConverter
-    fun toImgsList(imgs: String): List<Image>{
-        val notesType = object: TypeToken<List<Image>>() {}.type
-        return Gson().fromJson<List<Image>>(imgs, notesType)
+    fun toImgsList(imgs: String): List<MediaStore.Images>{
+        val notesType = object: TypeToken<List<MediaStore.Images>>() {}.type
+        return Gson().fromJson<List<MediaStore.Images>>(imgs, notesType)
     }
 }
