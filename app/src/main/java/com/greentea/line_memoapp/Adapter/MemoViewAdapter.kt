@@ -9,19 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.greentea.line_memoapp.Model.Memo
 import com.greentea.line_memoapp.R
 
-class MemoViewAdapter(val context: Context, val items: ArrayList<Memo>) : RecyclerView.Adapter<MemoViewAdapter.ViewHolder>() {
+class MemoViewAdapter(val context: Context) : RecyclerView.Adapter<MemoViewAdapter.ViewHolder>() {
+
+    var memos = emptyList<Memo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.memo_item, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount() = memos.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder?.bind(items[position])
+        holder?.bind(memos[position])
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,5 +33,10 @@ class MemoViewAdapter(val context: Context, val items: ArrayList<Memo>) : Recycl
             title.setText(memo.memoTitle)
             contents.setText(memo.memoContent)
         }
+    }
+
+    internal fun setMemos(memos: List<Memo>){
+        this.memos = memos
+        notifyDataSetChanged()
     }
 }
