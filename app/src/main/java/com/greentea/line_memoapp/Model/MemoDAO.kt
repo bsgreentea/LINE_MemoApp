@@ -7,13 +7,13 @@ import androidx.room.*
 interface MemoDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(memo: Memo)
+    suspend fun insert(memo: Memo)
+
+//    @Query("DELETE FROM memo_table")
+//    suspend fun delete()
 
     @Query("DELETE FROM memo_table")
-    fun delete()
-
-    @Delete
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Query("SELECT * FROM memo_table ORDER BY memoId")
     fun getAllMemo(): LiveData<List<Memo>>

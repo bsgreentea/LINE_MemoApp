@@ -21,6 +21,18 @@ abstract class AppDB : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDB? = null
 
+//        fun getDB(context: Context): AppDB?{
+//            if(INSTANCE == null) {
+//                synchronized(AppDB::class){
+//                    INSTANCE = Room.databaseBuilder(context.applicationContext,
+//                        AppDB::class.java, "app_db")
+//                        .fallbackToDestructiveMigration()
+//                        .build()
+//                }
+//            }
+//            return INSTANCE
+//        }
+
         fun getDB(context: Context,
                   scope: CoroutineScope
         ): AppDB {
@@ -54,8 +66,6 @@ abstract class AppDB : RoomDatabase() {
 
         suspend fun populateDB(memoDAO: MemoDAO){
             memoDAO.deleteAll()
-
-
         }
     }
 }

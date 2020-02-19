@@ -5,7 +5,7 @@ import android.provider.MediaStore
 import androidx.room.*
 
 @Entity(tableName = "memo_table")
-class Memo(
+data class Memo(
     @PrimaryKey(autoGenerate = true) var memoId: Int,
     @ColumnInfo(name = "memoTitle") var memoTitle: String,
     @ColumnInfo(name = "memoContent") var memoContent: String//,

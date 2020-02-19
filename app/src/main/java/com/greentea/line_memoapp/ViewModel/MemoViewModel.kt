@@ -16,7 +16,7 @@ class MemoViewModel(application: Application): AndroidViewModel(application){
     val allMemos: LiveData<List<Memo>>
 
     init{
-        val memoDAO = AppDB.getDB(application).memoDAO()
+        val memoDAO = AppDB.getDB(application, viewModelScope).memoDAO()
         repository = MemoRepository(memoDAO)
         allMemos = repository.allMemos
     }
