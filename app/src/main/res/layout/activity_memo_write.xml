@@ -3,4 +3,22 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <EditText
+        android:id="@+id/edit_title"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:hint="제목"/>
+
+    <EditText
+        android:id="@+id/edit_contents"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:hint="내용을 입력하세요."/>
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="SAVE"/>
+
 </LinearLayout>
