@@ -3,6 +3,7 @@ package com.greentea.line_memoapp.Model
 import android.media.Image
 import android.provider.MediaStore
 import androidx.room.*
+import java.io.Serializable
 
 @Entity(tableName = "memo_table")
 data class Memo(
@@ -12,4 +13,4 @@ data class Memo(
 //    @ColumnInfo(name = "images")
 //    @TypeConverters(ImagesConverter::class)
 //    var Imgs: List<MediaStore.Images>
-)
+) : Serializable
