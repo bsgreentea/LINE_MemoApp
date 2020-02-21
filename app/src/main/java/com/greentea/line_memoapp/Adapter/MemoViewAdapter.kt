@@ -1,13 +1,17 @@
 package com.greentea.line_memoapp.Adapter
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.greentea.line_memoapp.MemoContentsActivity
 import com.greentea.line_memoapp.Model.Memo
 import com.greentea.line_memoapp.R
+import com.greentea.line_memoapp.Utils.Codes
 
 class MemoViewAdapter(val context: Context) : RecyclerView.Adapter<MemoViewAdapter.ViewHolder>() {
 
@@ -22,6 +26,15 @@ class MemoViewAdapter(val context: Context) : RecyclerView.Adapter<MemoViewAdapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder?.bind(memos[position])
+
+        holder?.itemView.setOnClickListener {
+
+            var context = it.context
+            var intent = Intent(context, MemoContentsActivity::class.java)
+
+            intent.putExtra("memo", memos[position])
+            (context as Activity).startActivityForResult(intent, Codes.EDIT_MEMO_REQUEST_CODE)
+        }
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
