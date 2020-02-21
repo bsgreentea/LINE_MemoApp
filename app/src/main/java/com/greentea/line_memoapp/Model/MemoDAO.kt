@@ -9,8 +9,8 @@ interface MemoDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(memo: Memo)
 
-//    @Query("DELETE FROM memo_table")
-//    suspend fun delete()
+    @Delete
+    suspend fun delete(memo: Memo)
 
     @Query("DELETE FROM memo_table")
     suspend fun deleteAll()
