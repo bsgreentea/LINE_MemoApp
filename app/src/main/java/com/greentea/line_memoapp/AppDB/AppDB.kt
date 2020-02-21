@@ -58,7 +58,7 @@ abstract class AppDB : RoomDatabase() {
                 super.onOpen(db)
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        populateDB(database.memoDAO())
+//                        populateDB(database.memoDAO())
                     }
                 }
             }
