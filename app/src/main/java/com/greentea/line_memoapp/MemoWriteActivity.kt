@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -34,13 +37,13 @@ class MemoWriteActivity : AppCompatActivity() {
             Toast.makeText(this, "새 메모를 작성합니다.", Toast.LENGTH_SHORT).show()
         }
 
-        val saveBtn = findViewById<Button>(R.id.save_btn)
+        val saveBtn = findViewById<Button>(R.id.fab_save)
         saveBtn.setOnClickListener {
 
             // edit memo
-            if(intent.hasExtra("memo")){
+            if (intent.hasExtra("memo")) {
 
-                Log.d("edited???","edited???")
+                Log.d("edited???", "edited???")
 
                 var memo = intent.getSerializableExtra("memo") as Memo
                 memo.memoTitle = editTitle.text.toString()
@@ -70,6 +73,25 @@ class MemoWriteActivity : AppCompatActivity() {
                     finish()
                 }
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.gallery -> {
+
+                true
+            }
+            R.id.camera -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

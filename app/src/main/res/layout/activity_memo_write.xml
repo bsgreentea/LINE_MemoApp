@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/edit_title"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:hint="제목"/>
+        android:hint="제목" />
 
     <EditText
+        android:layout_below="@+id/edit_title"
         android:id="@+id/edit_contents"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:hint="내용을 입력하세요."/>
+        android:hint="내용을 입력하세요." />
 
-    <Button
-        android:id="@+id/save_btn"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/edit_contents"
+        android:id="@+id/image_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:text="SAVE"/>
+        android:layout_height="match_parent"
+        android:padding="5dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
-</LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_done_black_24dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+</RelativeLayout>
