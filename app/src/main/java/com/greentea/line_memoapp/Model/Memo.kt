@@ -9,8 +9,6 @@ import java.io.Serializable
 data class Memo(
     @PrimaryKey(autoGenerate = true) var memoId: Int,
     @ColumnInfo(name = "memoTitle") var memoTitle: String,
-    @ColumnInfo(name = "memoContent") var memoContent: String//,
-//    @ColumnInfo(name = "images")
-//    @TypeConverters(ImagesConverter::class)
-//    var Imgs: List<MediaStore.Images>
+    @ColumnInfo(name = "memoContent") var memoContent: String,
+    @ColumnInfo(name = "images") var images: String = ""
 ) : Serializable
