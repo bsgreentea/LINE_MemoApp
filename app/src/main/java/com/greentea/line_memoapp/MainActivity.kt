@@ -1,13 +1,8 @@
 package com.greentea.line_memoapp
 
-import android.app.Activity
 import android.content.Intent
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
-import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +12,8 @@ import com.greentea.line_memoapp.Adapter.MemoViewAdapter
 import com.greentea.line_memoapp.Model.Memo
 import com.greentea.line_memoapp.Utils.Codes
 import com.greentea.line_memoapp.ViewModel.MemoViewModel
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun init() {
+
+        checkPermission()
 
         val adapter = MemoViewAdapter(this)
         var recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
@@ -67,5 +66,24 @@ class MainActivity : AppCompatActivity() {
         } else if (resultCode == Codes.DELETE_RESULT_CODE) { // delete memo
             memoViewModel.delete(data!!.getSerializableExtra("memo") as Memo)
         }
+    }
+
+    fun checkPermission(){
+
+        var permissionListener: PermissionListener = object : PermissionListener{
+            override fun onPermissionGranted() {
+                return
+            }
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                finish()
+            }
+        }
+
+        TedPermission.with(this)
+            .setPermissionListener(permissionListener)
+            .setRationaleMessage("앱의 사용을 위해 권한이 필요합니다.")
+            .setDeniedMessage("[설정] -> [권한]에서 권한을 설정할 수 있습니다.")
+            .setPermissions(android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .check()
     }
 }
