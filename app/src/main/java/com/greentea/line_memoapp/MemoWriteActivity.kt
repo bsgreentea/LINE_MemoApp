@@ -116,7 +116,8 @@ class MemoWriteActivity : AppCompatActivity() {
 
                 builder.setView(dialogView)
                     .setPositiveButton("추가"){ dialogInterface, i ->
-                        dialogText.text.toString()
+                        val url = dialogText.text.toString()
+                        adapter.addImage(Uri.parse(url))
                     }
                     .setNegativeButton("취소"){dialogInterface, i ->
 
