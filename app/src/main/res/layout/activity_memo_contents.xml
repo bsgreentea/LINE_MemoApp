@@ -18,6 +18,8 @@
         android:hint="내용을 입력하세요."
         android:textSize="25dp"/>
 
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_edit"
         android:layout_height="wrap_content"
