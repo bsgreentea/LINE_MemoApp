@@ -54,6 +54,7 @@ class MemoViewAdapter(val context: Context) : RecyclerView.Adapter<MemoViewAdapt
                 val list = memo.images.split('\n').map { it }.toList()
                 imageView.setImageURI(Uri.parse(list[0]))
             }
+            else imageView.setImageResource(R.drawable.ic_image_black_24dp)
         }
     }
 
