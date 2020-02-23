@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         val lm = LinearLayoutManager(this)
         recyclerView.layoutManager = lm
+        recyclerView.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.VERTICAL))
 
         memoViewModel = ViewModelProvider(this).get(MemoViewModel::class.java)
         memoViewModel.allMemos.observe(this, Observer { memos ->

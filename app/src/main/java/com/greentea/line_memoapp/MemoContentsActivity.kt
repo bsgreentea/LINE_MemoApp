@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,6 +52,7 @@ class MemoContentsActivity : AppCompatActivity() {
         recyclerview.adapter = adapter
         recyclerview.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerview.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.HORIZONTAL))
 
         val memo = intent.getSerializableExtra("memo") as Memo
 

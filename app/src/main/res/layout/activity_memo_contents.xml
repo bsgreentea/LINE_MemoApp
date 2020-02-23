@@ -8,7 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:hint="제목"
-        android:textSize="25dp"/>
+        android:textSize="25dp"
+        android:gravity="left|center"
+        android:background="@drawable/text_view_style"
+        android:padding="2dp"/>
 
     <TextView
         android:layout_below="@id/text_title"
@@ -16,7 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:hint="내용을 입력하세요."
-        android:textSize="25dp"/>
+        android:textSize="25dp"
+        android:background="@drawable/text_view_style"
+        android:padding="2dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
 

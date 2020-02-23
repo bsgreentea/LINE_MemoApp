@@ -35,7 +35,6 @@ class ImageAdapter(val context: Context, val mode: Int) : RecyclerView.Adapter<I
         holder.itemView.setOnClickListener {
             if(mode == Codes.EDIT_MODE) {
                 images.removeAt(position)
-//                notifyItemRemoved(position)
                 notifyDataSetChanged()
             }
         }

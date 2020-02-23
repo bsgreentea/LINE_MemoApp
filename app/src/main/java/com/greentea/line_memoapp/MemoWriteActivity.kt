@@ -4,23 +4,19 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
-import android.util.TypedValue
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.greentea.line_memoapp.Adapter.ImageAdapter
 import com.greentea.line_memoapp.Model.Memo
 import com.greentea.line_memoapp.Utils.Codes
 import gun0912.tedbottompicker.TedBottomPicker
 import java.lang.StringBuilder
-
 
 class MemoWriteActivity : AppCompatActivity() {
 
@@ -79,6 +75,7 @@ class MemoWriteActivity : AppCompatActivity() {
         recyclerview.adapter = adapter
         recyclerview.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerview.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.HORIZONTAL))
 
         editTitle = findViewById(R.id.edit_title)
         editContent = findViewById(R.id.edit_contents)
@@ -109,7 +106,6 @@ class MemoWriteActivity : AppCompatActivity() {
                 true
             }
             R.id.url -> {
-
                 val builder = AlertDialog.Builder(this)
                 val dialogView = layoutInflater.inflate(R.layout.url_dialog, null)
                 val dialogText = dialogView.findViewById<EditText>(R.id.edit_url)
@@ -123,7 +119,6 @@ class MemoWriteActivity : AppCompatActivity() {
 
                     }
                     .show()
-
                 true
             }
             else -> super.onOptionsItemSelected(item)

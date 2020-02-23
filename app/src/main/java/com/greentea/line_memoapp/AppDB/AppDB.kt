@@ -21,20 +21,7 @@ abstract class AppDB : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDB? = null
 
-//        fun getDB(context: Context): AppDB?{
-//            if(INSTANCE == null) {
-//                synchronized(AppDB::class){
-//                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-//                        AppDB::class.java, "app_db")
-//                        .fallbackToDestructiveMigration()
-//                        .build()
-//                }
-//            }
-//            return INSTANCE
-//        }
-
-        fun getDB(context: Context,
-                  scope: CoroutineScope
+        fun getDB(context: Context
         ): AppDB {
 
             return INSTANCE ?: synchronized(this) {
@@ -42,30 +29,10 @@ abstract class AppDB : RoomDatabase() {
                     context.applicationContext,
                     AppDB::class.java,
                     "app_db"
-                )
-                    .addCallback(AppDBCallBack(scope))
-                    .build()
+                ).build()
                 INSTANCE = instance
                 instance
             }
-        }
-
-        private class AppDBCallBack(
-            private val scope: CoroutineScope
-        ): RoomDatabase.Callback(){
-
-            override fun onOpen(db: SupportSQLiteDatabase) {
-                super.onOpen(db)
-                INSTANCE?.let { database ->
-                    scope.launch(Dispatchers.IO) {
-//                        populateDB(database.memoDAO())
-                    }
-                }
-            }
-        }
-
-        suspend fun populateDB(memoDAO: MemoDAO){
-            memoDAO.deleteAll()
         }
     }
 }
