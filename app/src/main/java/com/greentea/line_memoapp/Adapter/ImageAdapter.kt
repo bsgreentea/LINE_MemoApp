@@ -14,9 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.greentea.line_memoapp.R
+import com.greentea.line_memoapp.Utils.Codes
 import java.net.URI
 
-class ImageAdapter(val context: Context) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
+class ImageAdapter(val context: Context, val mode: Int) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
     var images = mutableListOf<Uri>()
 
@@ -32,9 +33,11 @@ class ImageAdapter(val context: Context) : RecyclerView.Adapter<ImageAdapter.Vie
         holder.bind(images[position])
 
         holder.itemView.setOnClickListener {
-            images.removeAt(position)
-//            notifyItemRemoved(position)
-            notifyDataSetChanged()
+            if(mode == Codes.EDIT_MODE) {
+                images.removeAt(position)
+//                notifyItemRemoved(position)
+                notifyDataSetChanged()
+            }
         }
     }
 
