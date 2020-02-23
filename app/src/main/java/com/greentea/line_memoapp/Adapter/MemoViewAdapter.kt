@@ -3,9 +3,12 @@ package com.greentea.line_memoapp.Adapter
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.media.Image
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.greentea.line_memoapp.MemoContentsActivity
@@ -41,14 +44,20 @@ class MemoViewAdapter(val context: Context) : RecyclerView.Adapter<MemoViewAdapt
 
         val title = view.findViewById<TextView>(R.id.tv1)
         val contents = view.findViewById<TextView>(R.id.tv2)
+        val imageView = view.findViewById<ImageView>(R.id.iv_thumbnail)
 
         fun bind(memo: Memo) {
             title.setText(memo.memoTitle)
             contents.setText(memo.memoContent)
+
+            if (!memo.images.equals("")) {
+                val list = memo.images.split('\n').map { it }.toList()
+                imageView.setImageURI(Uri.parse(list[0]))
+            }
         }
     }
 
-    internal fun setMemos(memos: List<Memo>){
+    internal fun setMemos(memos: List<Memo>) {
         this.memos = memos
         notifyDataSetChanged()
     }

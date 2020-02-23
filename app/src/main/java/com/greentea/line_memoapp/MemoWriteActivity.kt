@@ -12,12 +12,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.greentea.line_memoapp.Adapter.ImageAdapter
 import com.greentea.line_memoapp.Model.Memo
 import com.greentea.line_memoapp.Utils.Codes
 import gun0912.tedbottompicker.TedBottomPicker
+import java.lang.StringBuilder
 
 
 class MemoWriteActivity : AppCompatActivity() {
@@ -25,15 +29,16 @@ class MemoWriteActivity : AppCompatActivity() {
     lateinit var editTitle: TextView
     lateinit var editContent: TextView
 
-    private var selectedUriList: List<Uri>? = null
+    private var selectedUriList: MutableList<Uri> = mutableListOf()
+    lateinit var adapter: ImageAdapter
+    lateinit var recyclerview: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        binding = DataBindingUtil.setContentView(this, R.layout.activity_memo_write)
         setContentView(R.layout.activity_memo_write)
 
-        editTitle = findViewById(R.id.edit_title)
-        editContent = findViewById(R.id.edit_contents)
+        init()
 
         if (intent.hasExtra("memo")) {
             val memo = intent.getSerializableExtra("memo") as Memo
@@ -50,11 +55,10 @@ class MemoWriteActivity : AppCompatActivity() {
             // edit memo
             if (intent.hasExtra("memo")) {
 
-                Log.d("edited???", "edited???")
-
                 var memo = intent.getSerializableExtra("memo") as Memo
                 memo.memoTitle = editTitle.text.toString()
                 memo.memoContent = editContent.text.toString()
+                memo.images = makeString(adapter.images)
 
                 val replyIntent = Intent()
                 replyIntent.putExtra("memo", memo)
@@ -72,8 +76,9 @@ class MemoWriteActivity : AppCompatActivity() {
                     val title = editTitle.text.toString()
                     val content = editContent.text.toString()
 
-                    replyIntent.putExtra("title", title)
-                    replyIntent.putExtra("content", content)
+                    val memo = Memo(0, title, content, makeString(adapter.images))
+
+                    replyIntent.putExtra("memo",memo)
 
                     setResult(Codes.NEW_MEMO_REQUEST_CODE, replyIntent)
 
@@ -81,6 +86,18 @@ class MemoWriteActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun init(){
+
+        recyclerview = findViewById(R.id.img_recyclerview)
+        adapter = ImageAdapter(this)
+        recyclerview.adapter = adapter
+        recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+//        adapter.setImages(selectedUriList)
+
+        editTitle = findViewById(R.id.edit_title)
+        editContent = findViewById(R.id.edit_contents)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -92,8 +109,10 @@ class MemoWriteActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.gallery_camera -> {
-
                 select()
+                true
+            }
+            R.id.url -> {
 
                 true
             }
@@ -103,50 +122,34 @@ class MemoWriteActivity : AppCompatActivity() {
 
     fun select(){
 
-        TedBottomPicker.with(this) //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
-            .setPeekHeight(1600)
-            .showTitle(false)
-            .setCompleteButtonText("Done")
-            .setEmptySelectionText("No Select")
-            .setSelectedUriList(selectedUriList)
-            .showMultiImage { uriList: List<Uri> ->
-                selectedUriList = uriList
-                showUriList(uriList)
-            }
+        // select multiple images
+//        TedBottomPicker.with(this) //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
+//            .setPeekHeight(1600)
+//            .showTitle(false)
+//            .setCompleteButtonText("Done")
+//            .setEmptySelectionText("No Select")
+//            .setSelectedUriList(selectedUriList)
+//            .showMultiImage { uriList: List<Uri> ->
+////                selectedUriList.addAll(uriList)
+//                adapter.setImages(selectedUriList)
+//            }
 
-        if(selectedUriList != null)
-            Log.d("show_uri_list", "" + selectedUriList!![0].toString())
+        TedBottomPicker.with(this)
+            .show {
+                adapter.addImage(it)
+            }
     }
 
-    private fun showUriList(uriList: List<Uri>) { // Remove all views before
-// adding the new ones.
+    fun makeString(list: List<Uri>): String{
 
-        var mSelectedImagesContainer = findViewById<ViewGroup>(R.id.selected_photos_container)
-        var iv_image = findViewById<ImageView>(R.id.iv_image)
-        var requestManager = Glide.with(this)
+        var sb = StringBuilder()
 
-        mSelectedImagesContainer.removeAllViews()
-        iv_image.setVisibility(View.GONE)
-        mSelectedImagesContainer.setVisibility(View.VISIBLE)
-        val widthPixel = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            100f,
-            resources.displayMetrics
-        ).toInt()
-        val heightPixel = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            100f,
-            resources.displayMetrics
-        ).toInt()
-        for (uri in uriList) {
-            val imageHolder: View = LayoutInflater.from(this).inflate(R.layout.image_item, null)
-            val thumbnail: ImageView = imageHolder.findViewById(R.id.media_image)
-            requestManager
-                .load(uri.toString())
-                .apply(RequestOptions().fitCenter())
-                .into(thumbnail)
-            mSelectedImagesContainer.addView(imageHolder)
-            thumbnail.setLayoutParams(FrameLayout.LayoutParams(widthPixel, heightPixel))
+        val sz = list.size
+        for (i in 0..sz-1) {
+            sb.append(list[i].toString())
+            if (i != sz - 1) sb.append('\n')
         }
+
+        return sb.toString()
     }
 }

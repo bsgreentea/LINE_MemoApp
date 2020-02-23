@@ -54,13 +54,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Codes.NEW_MEMO_REQUEST_CODE) {
-
-            val title = data!!.getStringExtra("title").toString()
-            val content = data!!.getStringExtra("content").toString()
-            val memo = Memo(0, title, content)
-
-            memoViewModel.insert(memo)
-
+            memoViewModel.insert(data!!.getSerializableExtra("memo") as Memo)
         } else if (resultCode == Codes.EDIT_MEMO_REQUEST_CODE) {
             memoViewModel.insert(data!!.getSerializableExtra("memo") as Memo)
         } else if (resultCode == Codes.DELETE_RESULT_CODE) { // delete memo
