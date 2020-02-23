@@ -24,14 +24,6 @@
         android:background="@drawable/text_view_style"
         android:padding="2dp"/>
 
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edit_contents"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
