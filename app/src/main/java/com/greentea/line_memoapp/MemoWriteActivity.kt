@@ -1,6 +1,7 @@
 package com.greentea.line_memoapp
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,6 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.greentea.line_memoapp.Adapter.ImageAdapter
 import com.greentea.line_memoapp.Model.Memo
@@ -75,7 +81,7 @@ class MemoWriteActivity : AppCompatActivity() {
         recyclerview.adapter = adapter
         recyclerview.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        recyclerview.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.HORIZONTAL))
+        recyclerview.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL))
 
         editTitle = findViewById(R.id.edit_title)
         editContent = findViewById(R.id.edit_contents)
@@ -111,11 +117,11 @@ class MemoWriteActivity : AppCompatActivity() {
                 val dialogText = dialogView.findViewById<EditText>(R.id.edit_url)
 
                 builder.setView(dialogView)
-                    .setPositiveButton("추가"){ dialogInterface, i ->
+                    .setPositiveButton("추가") { dialogInterface, i ->
                         val url = dialogText.text.toString()
                         adapter.addImage(Uri.parse(url))
                     }
-                    .setNegativeButton("취소"){dialogInterface, i ->
+                    .setNegativeButton("취소") { dialogInterface, i ->
 
                     }
                     .show()
@@ -135,7 +141,7 @@ class MemoWriteActivity : AppCompatActivity() {
 
     fun makeString(list: List<Uri>): String {
 
-        if(list.isEmpty()) return ""
+        if (list.isEmpty()) return ""
 
         var sb = StringBuilder()
 
@@ -150,7 +156,7 @@ class MemoWriteActivity : AppCompatActivity() {
 
     fun makeUriList(str: String): List<Uri> {
 
-        if(str.equals("")) return emptyList()
+        if (str.equals("")) return emptyList()
 
         return str.split('\n').map { Uri.parse(it) }.toList()
     }

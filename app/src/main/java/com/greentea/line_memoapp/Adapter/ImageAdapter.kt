@@ -1,21 +1,15 @@
 package com.greentea.line_memoapp.Adapter
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.greentea.line_memoapp.R
 import com.greentea.line_memoapp.Utils.Codes
-import java.net.URI
 
 class ImageAdapter(val context: Context, val mode: Int) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 

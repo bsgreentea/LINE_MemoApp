@@ -73,8 +73,8 @@ class MemoContentsActivity : AppCompatActivity() {
 
                 var replyIntent = Intent()
                 replyIntent.putExtra("memo", intent.getSerializableExtra("memo") as Memo)
-                setResult(Codes.DELETE_RESULT_CODE, replyIntent)
 
+                setResult(Codes.DELETE_RESULT_CODE, replyIntent)
                 finish()
                 true
             }

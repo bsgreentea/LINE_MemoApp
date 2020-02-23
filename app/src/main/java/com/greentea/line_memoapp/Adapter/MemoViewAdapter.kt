@@ -45,7 +45,7 @@ class MemoViewAdapter(val context: Context) : RecyclerView.Adapter<MemoViewAdapt
 
         val title = view.findViewById<TextView>(R.id.tv1)
         val contents = view.findViewById<TextView>(R.id.tv2)
-        val imageView = view.findViewById<ImageView>(R.id.iv_thumbnail)
+        val thumbnail = view.findViewById<ImageView>(R.id.iv_thumbnail)
 
         fun bind(memo: Memo) {
             title.setText(memo.memoTitle)
@@ -53,9 +53,9 @@ class MemoViewAdapter(val context: Context) : RecyclerView.Adapter<MemoViewAdapt
 
             if (!memo.images.equals("")) {
                 val list = memo.images.split('\n').map { it }.toList()
-                Glide.with(context).load(Uri.parse(list[0])).error(R.drawable.img_error).into(imageView)
+                Glide.with(context).load(Uri.parse(list[0])).error(R.drawable.img_error).into(thumbnail)
             }
-            else imageView.setImageResource(R.drawable.ic_image_black_24dp)
+            else thumbnail.setImageResource(R.drawable.ic_image_black_24dp)
         }
     }
 
