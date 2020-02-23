@@ -29,75 +29,73 @@ class MemoWriteActivity : AppCompatActivity() {
     lateinit var editTitle: TextView
     lateinit var editContent: TextView
 
-    private var selectedUriList: MutableList<Uri> = mutableListOf()
     lateinit var adapter: ImageAdapter
     lateinit var recyclerview: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        binding = DataBindingUtil.setContentView(this, R.layout.activity_memo_write)
         setContentView(R.layout.activity_memo_write)
 
         init()
 
-        if (intent.hasExtra("memo")) {
-            val memo = intent.getSerializableExtra("memo") as Memo
-            editTitle.setText(memo.memoTitle)
-            editContent.setText(memo.memoContent)
-            Toast.makeText(this, "메모를 수정합니다.", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "새 메모를 작성합니다.", Toast.LENGTH_SHORT).show()
-        }
-
         val saveBtn = findViewById<FloatingActionButton>(R.id.fab_save)
         saveBtn.setOnClickListener {
 
-            // edit memo
-            if (intent.hasExtra("memo")) {
-
-                var memo = intent.getSerializableExtra("memo") as Memo
-                memo.memoTitle = editTitle.text.toString()
-                memo.memoContent = editContent.text.toString()
-                memo.images = makeString(adapter.images)
+            if (TextUtils.isEmpty(editTitle.text)) {
+                Toast.makeText(this, "제목을 입력하세요.", Toast.LENGTH_SHORT).show()
+            } else {
 
                 val replyIntent = Intent()
-                replyIntent.putExtra("memo", memo)
-                setResult(Codes.EDIT_MEMO_REQUEST_CODE, replyIntent)
+                val title = editTitle.text.toString()
+                val content = editContent.text.toString()
+                val images = adapter.images
+
+                if (intent.hasExtra("memo")) { // eidt memo
+
+                    var memo = intent.getSerializableExtra("memo") as Memo
+
+                    val id = memo.memoId
+
+                    memo = Memo(id, title, content, makeString(images))
+                    replyIntent.putExtra("memo", memo)
+
+                    setResult(Codes.EDIT_MEMO_REQUEST_CODE, replyIntent)
+
+                } else { // new memo
+
+                    val memo = Memo(0, title, content, makeString(images))
+
+                    replyIntent.putExtra("memo", memo)
+                    setResult(Codes.NEW_MEMO_REQUEST_CODE, replyIntent)
+                }
 
                 finish()
-
-            } else { // new memo
-
-                val replyIntent = Intent()
-                if (TextUtils.isEmpty(editTitle.text)) {
-                    Toast.makeText(this, "제목을 입력하세요.", Toast.LENGTH_SHORT).show()
-                } else {
-
-                    val title = editTitle.text.toString()
-                    val content = editContent.text.toString()
-
-                    val memo = Memo(0, title, content, makeString(adapter.images))
-
-                    replyIntent.putExtra("memo",memo)
-
-                    setResult(Codes.NEW_MEMO_REQUEST_CODE, replyIntent)
-
-                    finish()
-                }
             }
         }
     }
 
-    fun init(){
+    fun init() {
 
         recyclerview = findViewById(R.id.img_recyclerview)
-        adapter = ImageAdapter(this)
+        adapter = ImageAdapter(this, Codes.EDIT_MODE)
         recyclerview.adapter = adapter
-        recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-//        adapter.setImages(selectedUriList)
+        recyclerview.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         editTitle = findViewById(R.id.edit_title)
         editContent = findViewById(R.id.edit_contents)
+
+        if (intent.hasExtra("memo")) {
+
+            val memo = intent.getSerializableExtra("memo") as Memo
+            editTitle.setText(memo.memoTitle)
+            editContent.setText(memo.memoContent)
+            adapter.setImages(makeUriList(memo.images))
+            Toast.makeText(this, "메모를 수정합니다.", Toast.LENGTH_SHORT).show()
+
+        } else {
+            Toast.makeText(this, "새 메모를 작성합니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -120,19 +118,7 @@ class MemoWriteActivity : AppCompatActivity() {
         }
     }
 
-    fun select(){
-
-        // select multiple images
-//        TedBottomPicker.with(this) //.setPeekHeight(getResources().getDisplayMetrics().heightPixels/2)
-//            .setPeekHeight(1600)
-//            .showTitle(false)
-//            .setCompleteButtonText("Done")
-//            .setEmptySelectionText("No Select")
-//            .setSelectedUriList(selectedUriList)
-//            .showMultiImage { uriList: List<Uri> ->
-////                selectedUriList.addAll(uriList)
-//                adapter.setImages(selectedUriList)
-//            }
+    fun select() {
 
         TedBottomPicker.with(this)
             .show {
@@ -140,16 +126,25 @@ class MemoWriteActivity : AppCompatActivity() {
             }
     }
 
-    fun makeString(list: List<Uri>): String{
+    fun makeString(list: List<Uri>): String {
+
+        if(list.isEmpty()) return ""
 
         var sb = StringBuilder()
 
         val sz = list.size
-        for (i in 0..sz-1) {
+        for (i in 0..sz - 1) {
             sb.append(list[i].toString())
             if (i != sz - 1) sb.append('\n')
         }
 
         return sb.toString()
+    }
+
+    fun makeUriList(str: String): List<Uri> {
+
+        if(str.equals("")) return emptyList()
+
+        return str.split('\n').map { Uri.parse(it) }.toList()
     }
 }
