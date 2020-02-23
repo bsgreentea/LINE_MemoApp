@@ -7,10 +7,8 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -111,6 +109,19 @@ class MemoWriteActivity : AppCompatActivity() {
                 true
             }
             R.id.url -> {
+
+                val builder = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.url_dialog, null)
+                val dialogText = dialogView.findViewById<EditText>(R.id.edit_url)
+
+                builder.setView(dialogView)
+                    .setPositiveButton("추가"){ dialogInterface, i ->
+                        dialogText.text.toString()
+                    }
+                    .setNegativeButton("취소"){dialogInterface, i ->
+
+                    }
+                    .show()
 
                 true
             }
