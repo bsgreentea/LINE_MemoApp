@@ -46,8 +46,7 @@ class ImageAdapter(val context: Context, val mode: Int) : RecyclerView.Adapter<I
         val imageView = view.findViewById<ImageView>(R.id.memo_image)
 
         fun bind(uri: Uri) {
-            imageView.setImageURI(uri)
-//            showUri(uri, imageView)
+            Glide.with(context).load(uri).error(R.drawable.img_error).into(imageView)
         }
     }
 
@@ -59,19 +58,5 @@ class ImageAdapter(val context: Context, val mode: Int) : RecyclerView.Adapter<I
     internal fun addImage(uri: Uri){
         this.images.add(uri)
         notifyDataSetChanged()
-    }
-
-    private fun showUri(uri: Uri, imageView: ImageView) {
-
-        var requestManager = Glide.with(context)
-
-        val widthPixel = 80
-        val heightPixel = 80
-//        val imageHolder: View = LayoutInflater.from(context).inflate(R.layout.image_item, null)
-        requestManager
-            .load(uri.toString())
-            .apply(RequestOptions().fitCenter())
-            .into(imageView)
-//        imageView.setLayoutParams(FrameLayout.LayoutParams(widthPixel, heightPixel))
     }
 }

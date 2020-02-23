@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.greentea.line_memoapp.MemoContentsActivity
 import com.greentea.line_memoapp.Model.Memo
 import com.greentea.line_memoapp.R
@@ -52,7 +53,8 @@ class MemoViewAdapter(val context: Context) : RecyclerView.Adapter<MemoViewAdapt
 
             if (!memo.images.equals("")) {
                 val list = memo.images.split('\n').map { it }.toList()
-                imageView.setImageURI(Uri.parse(list[0]))
+//                imageView.setImageURI(Uri.parse(list[0]))
+                Glide.with(context).load(Uri.parse(list[0])).error(R.drawable.img_error).into(imageView)
             }
             else imageView.setImageResource(R.drawable.ic_image_black_24dp)
         }
