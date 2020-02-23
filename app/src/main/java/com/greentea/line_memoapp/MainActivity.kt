@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var addButton: FloatingActionButton
     lateinit var memoViewModel: MemoViewModel
 
+    lateinit var adapter:MemoViewAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         checkPermission()
 
-        val adapter = MemoViewAdapter(this)
+        adapter = MemoViewAdapter(this)
         var recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView.adapter = adapter
 
