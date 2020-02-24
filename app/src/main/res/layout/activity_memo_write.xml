@@ -16,7 +16,7 @@
     <EditText
         android:id="@+id/edit_contents"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_below="@+id/edit_title"
         android:gravity="top"
         android:hint="내용을 입력하세요."

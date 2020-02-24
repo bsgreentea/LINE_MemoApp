@@ -17,7 +17,7 @@
         android:layout_below="@id/text_title"
         android:id="@+id/text_contents"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:hint="내용을 입력하세요."
         android:textSize="25dp"
         android:background="@drawable/text_view_style"
